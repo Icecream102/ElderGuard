@@ -108,6 +108,7 @@ if __name__ == '__main__':
 
         # Predict each tracks bbox of current frame from previous frames information with Kalman filter.
         tracker.predict()
+
         # Merge two source of predicted bbox together.
         for track in tracker.tracks:
             det = torch.tensor([track.to_tlbr().tolist() + [0.5, 1.0, 0.0]], dtype=torch.float32)
