@@ -7,6 +7,7 @@ import numpy as np
 
 class Graph:
     """The Graph to model the skeletons extracted by the Alpha-Pose.
+    对 Alpha-Pose 提取的骨架进行建模的图形
     Args:
         - strategy: (string) must be one of the follow candidates
             - uniform: Uniform Labeling,
@@ -20,13 +21,12 @@ class Graph:
         - dilation: (int) controls the spacing between the kernel points.
     """
     def __init__(self,
-                 layout='coco_cut',
-                 strategy='uniform',
-                 max_hop=1,
-                 dilation=1):
+                 layout='coco_cut',  # Is COCO format but cut 4 joints (L-R ears, L-R eyes) out
+                 strategy='uniform',  # uniform / distance / spatial
+                 max_hop=1,  # the maximal distance between two connected nodes
+                 dilation=1):  # controls the spacing between the kernel points.
         self.max_hop = max_hop
         self.dilation = dilation
-
         self.get_edge(layout)
         self.hop_dis = get_hop_distance(self.num_node, self.edge, max_hop)
         self.get_adjacency(strategy)
@@ -56,8 +56,7 @@ class Graph:
         elif strategy == 'distance':
             A = np.zeros((len(valid_hop), self.num_node, self.num_node))
             for i, hop in enumerate(valid_hop):
-                A[i][self.hop_dis == hop] = normalize_adjacency[self.hop_dis ==
-                                                                hop]
+                A[i][self.hop_dis == hop] = normalize_adjacency[self.hop_dis == hop]
             self.A = A
         elif strategy == 'spatial':
             A = []
@@ -91,7 +90,6 @@ def get_hop_distance(num_node, edge, max_hop=1):
     for i, j in edge:
         A[j, i] = 1
         A[i, j] = 1
-
     # compute hop steps
     hop_dis = np.zeros((num_node, num_node)) + np.inf
     transfer_mat = [np.linalg.matrix_power(A, d) for d in range(max_hop + 1)]

@@ -231,14 +231,12 @@ class TwoStreamSpatialTemporalGraph(nn.Module):
         self.mot_stream = StreamSpatialTemporalGraph(2, graph_args, None,
                                                      edge_importance_weighting,
                                                      **kwargs)
-
         self.fcn = nn.Linear(256 * 2, num_class)
 
     def forward(self, inputs):
         out1 = self.pts_stream(inputs[0])
         out2 = self.mot_stream(inputs[1])
-
-        concat = torch.cat([out1, out2], dim=-1)
+        concat = torch.cat([out1, out2], dim=-1)  # dim=-1按列拼接
         out = self.fcn(concat)
 
         return torch.sigmoid(out)
