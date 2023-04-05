@@ -22,6 +22,10 @@ test
     home100%
 """
 
+"""
+TwoStreamSpatialTemporalGraph
+"""
+
 
 save_folder = 'Actionsrecognition/saved/TSSTG(pts+mot)-01(cf+hm-hm)'
 

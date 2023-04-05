@@ -13,7 +13,7 @@ class TSSTG(object):
         device: (str) Device to load the model on 'cpu' or 'cuda'.
     """
     def __init__(self,
-                 weight_file='./Models/TSSTG/tsstg-model.pth',
+                 weight_file='./Models/TSSTG/tsstg-model.pth',  # tsstg-model.pth 由 Actioinsrecognition 的train.py得到
                  device='cuda'):
         self.graph_args = {'strategy': 'spatial'}
         self.class_names = ['Standing', 'Walking', 'Sitting', 'Lying Down',
@@ -21,7 +21,7 @@ class TSSTG(object):
         self.num_class = len(self.class_names)
         self.device = device
 
-        self.model = TwoStreamSpatialTemporalGraph(self.graph_args, self.num_class).to(self.device)
+        self.model = TwoStreamSpatialTemporalGraph(self.graph_args, self.num_class).to(self.device)  # create TSSTG model
         self.model.load_state_dict(torch.load(weight_file))
         self.model.eval()
 

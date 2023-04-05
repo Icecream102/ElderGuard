@@ -10,6 +10,7 @@ from Actionsrecognition.Utils import Graph
 
 class GraphConvolution(nn.Module):
     """The basic module for applying a graph convolution.
+      应用图形卷积的基本模块
     Args:
         - in_channel: (int) Number of channels in the input sequence data.
         - out_channels: (int) Number of channels produced by the convolution.
@@ -61,6 +62,8 @@ class GraphConvolution(nn.Module):
 
 class st_gcn(nn.Module):
     """Applies a spatial temporal graph convolution over an input graph sequence.
+      在一个输入图序列上应用 空间-时间图卷积
+      使用 GraphConvolution
     Args:
         - in_channels: (int) Number of channels in the input sequence data.
         - out_channels: (int) Number of channels produced by the convolution.
@@ -125,6 +128,8 @@ class st_gcn(nn.Module):
 
 class StreamSpatialTemporalGraph(nn.Module):
     """Spatial temporal graph convolutional networks.
+      空间时间图卷积网络
+      使用 st-gcn
     Args:
         - in_channels: (int) Number of input channels.
         - graph_args: (dict) Args map of `Actionsrecognition.Utils.Graph` Class.
@@ -207,6 +212,7 @@ class StreamSpatialTemporalGraph(nn.Module):
 
 class TwoStreamSpatialTemporalGraph(nn.Module):
     """Two inputs spatial temporal graph convolutional networks.
+      使用 StreamSpatialTemporalGraph
     Args:
         - graph_args: (dict) Args map of `Actionsrecognition.Utils.Graph` Class.
         - num_class: (int) Number of class outputs.

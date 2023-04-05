@@ -33,6 +33,9 @@ def get_monitor_from_coord(x, y):  # multiple monitor dealing.
 
 
 class Models:
+    """
+    load models: yolo/sppe/tracker/tsstg
+    """
     def __init__(self):
         self.inp_dets = 416
         self.inp_pose = (256, 192)
@@ -108,6 +111,10 @@ class Models:
 
 
 class main:
+    """
+    load camera
+    use models
+    """
     def __init__(self, master: tk.Tk):
         self.master = master
         self.master.title('Human Falling Detection')

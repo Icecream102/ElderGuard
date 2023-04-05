@@ -9,6 +9,7 @@ from .Utils import build_targets, to_cpu, parse_model_config
 def create_modules(module_defs):
     """
     Constructs module list of layer blocks from module configuration in module_defs
+    module_defs from Utils.parse_model_config
     """
     hyperparams = module_defs.pop(0)
     output_filters = [int(hyperparams["channels"])]  # [3]

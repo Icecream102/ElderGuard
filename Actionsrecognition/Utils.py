@@ -1,4 +1,6 @@
-### Reference from: https://github.com/yysijie/st-gcn/blob/master/net/utils/graph.py
+"""
+Reference from: https://github.com/yysijie/st-gcn/blob/master/net/utils/graph.py
+"""
 
 import os
 import torch
@@ -6,8 +8,7 @@ import numpy as np
 
 
 class Graph:
-    """The Graph to model the skeletons extracted by the Alpha-Pose.
-    对 Alpha-Pose 提取的骨架进行建模的图形
+    """The Graph to model the skeletons extracted by the Alpha-Pose. 对 Alpha-Pose 提取的骨架进行建模的图形
     Args:
         - strategy: (string) must be one of the follow candidates
             - uniform: Uniform Labeling,
@@ -21,7 +22,7 @@ class Graph:
         - dilation: (int) controls the spacing between the kernel points.
     """
     def __init__(self,
-                 layout='coco_cut',  # Is COCO format but cut 4 joints (L-R ears, L-R eyes) out
+                 layout='coco_cut',  # Is COCO format but cut 4 joints (L-R ears, L-R eyes) out  # openpose
                  strategy='uniform',  # uniform / distance / spatial
                  max_hop=1,  # the maximal distance between two connected nodes
                  dilation=1):  # controls the spacing between the kernel points.
@@ -83,6 +84,7 @@ class Graph:
             #self.A = np.swapaxes(np.swapaxes(A, 0, 1), 1, 2)
         else:
             raise ValueError("This strategy is not supported!")
+# class Graph end
 
 
 def get_hop_distance(num_node, edge, max_hop=1):
