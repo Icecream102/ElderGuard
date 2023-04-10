@@ -54,7 +54,7 @@ class GraphConvolution(nn.Module):
     def forward(self, x, A):
         x = self.conv(x)
         n, kc, t, v = x.size()
-        x = x.view(n, self.kernel_size, kc//self.kernel_size, t, v)
+        x = x.view(n, self.kernel_size, kc//self.kernel_size, t, v)  # 改变tensor的形状
         x = torch.einsum('nkctv,kvw->nctw', (x, A))
 
         return x.contiguous()
