@@ -15,10 +15,18 @@ from fn import draw_single
 from Track.Tracker import Detection, Tracker
 from ActionsEstLoader import TSSTG
 
+import time
+
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+
+
 #source = '../Data/test_video/test7.mp4'
 #source = '../Data/falldata/Home/Videos/video (2).avi'  # hard detect
-source = '../Data/falldata/Home/Videos/video (1).avi'
+source = r'D:\UNI\IT\Code\Python\Human-Falling-Detect-Tracks-master\Data\fall\Office\video (1).avi'
 #source = 2
+save_pic = 'D:/UNI/IT/Code/Python/Human-Falling-Detect-Tracks-master/Data/pic/'
+
 
 
 def preproc(image):
@@ -36,6 +44,13 @@ def kpt2bbox(kpt, ex=20):
     """
     return np.array((kpt[:, 0].min() - ex, kpt[:, 1].min() - ex,
                      kpt[:, 0].max() + ex, kpt[:, 1].max() + ex))
+
+def catchpic(frame):
+    t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()).replace(' ', '-').replace(':', '-')
+    p = save_pic + t + '.png'
+    cv2.imwrite(p, frame)
+    return
+
 
 
 if __name__ == '__main__':
@@ -78,7 +93,8 @@ if __name__ == '__main__':
 
     resize_fn = ResizePadding(inp_dets, inp_dets)
 
-    cam_source = args.camera
+    # camera or video files
+    cam_source = args.camera  # default=source
     if type(cam_source) is str and os.path.isfile(cam_source):
         # Use loader thread with Q for video file.
         cam = CamLoader_Q(cam_source, queue_size=1000, preprocess=preproc).start()
@@ -90,6 +106,7 @@ if __name__ == '__main__':
     #frame_size = cam.frame_size
     #scf = torch.min(inp_size / torch.FloatTensor([frame_size]), 1)[0]
 
+    # save display to video file
     outvid = False
     if args.save_out != '':
         outvid = True
@@ -130,6 +147,11 @@ if __name__ == '__main__':
             if args.show_detected:
                 for bb in detected[:, 0:5]:
                     frame = cv2.rectangle(frame, (bb[0], bb[1]), (bb[2], bb[3]), (0, 0, 255), 1)
+                    # frame: 图片
+                    # (bb[0], bb[1]): 长方形框左上角坐标
+                    # (bb[2], bb[3]): 长方形框右下角坐标
+                    # (0, 0, 255): 字体颜色，蓝色
+                    # 1: 字体粗细
 
         # Update tracks by matching each track information of current and previous frame or
         # create a new track if no matched.
@@ -145,7 +167,7 @@ if __name__ == '__main__':
             center = track.get_center().astype(int)
 
             action = 'pending..'
-            clr = (0, 255, 0)
+            clr = (0, 255, 0)  # green
             # Use 30 frames time-steps to prediction.
             if len(track.keypoints_list) == 30:
                 pts = np.array(track.keypoints_list, dtype=np.float32)
@@ -153,19 +175,28 @@ if __name__ == '__main__':
                 action_name = action_model.class_names[out[0].argmax()]
                 action = '{}: {:.2f}%'.format(action_name, out[0].max() * 100)
                 if action_name == 'Fall Down':
-                    clr = (255, 0, 0)
+                    clr = (255, 0, 0)  # red
+                    # t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()).replace(' ','-').replace(':','-')
+                    # save_pic = 'D:/UNI/IT/Code/Python/Human-Falling-Detect-Tracks-master/Data/pic/'
+                    # p = save_pic + t + '.png'
+                    # cv2.imwrite(p, frame)
+                    save_img = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                    catchpic(save_img)
                 elif action_name == 'Lying Down':
-                    clr = (255, 200, 0)
+                    clr = (255, 200, 0)  # yellow
+                elif action_name == 'violence':
+                    clr = (0, 0, 255)  # blue
+                    catchpic()
 
             # VISUALIZE.
             if track.time_since_update == 0:
                 if args.show_skeleton:
                     frame = draw_single(frame, track.keypoints_list[-1])
-                frame = cv2.rectangle(frame, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 1)
+                frame = cv2.rectangle(frame, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 1)  # 矩形框颜色，(0, 255, 0)绿色
                 frame = cv2.putText(frame, str(track_id), (center[0], center[1]), cv2.FONT_HERSHEY_COMPLEX,
-                                    0.4, (255, 0, 0), 2)
+                                    0.4, (255, 0, 0), 2)  # 框中心数字的颜色，(255, 0, 0)红色
                 frame = cv2.putText(frame, action, (bbox[0] + 5, bbox[1] + 15), cv2.FONT_HERSHEY_COMPLEX,
-                                    0.4, clr, 1)
+                                    0.4, clr, 1)  # 框左上角字的颜色，clr根据不同动作显示不同颜色
 
         # Show Frame.
         frame = cv2.resize(frame, (0, 0), fx=2., fy=2.)

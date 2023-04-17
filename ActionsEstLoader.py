@@ -13,11 +13,13 @@ class TSSTG(object):
         device: (str) Device to load the model on 'cpu' or 'cuda'.
     """
     def __init__(self,
-                 weight_file='./Models/TSSTG/tsstg-model.pth',  # tsstg-model.pth 由 Actioinsrecognition 的train.py得到
+                 weight_file=r'D:\UNI\IT\Code\Python\Human-Falling-Detect-Tracks-master\Actionsrecognition\saved\tsstg-model49.pth',  # 由 Actioinsrecognition 的train.py得到
                  device='cuda'):
         self.graph_args = {'strategy': 'spatial'}
+        # self.class_names = ['Standing', 'Walking', 'Sitting', 'Lying Down',
+        #                     'Stand up', 'Sit down', 'Fall Down']
         self.class_names = ['Standing', 'Walking', 'Sitting', 'Lying Down',
-                            'Stand up', 'Sit down', 'Fall Down']
+                            'Stand up', 'Sit down', 'Fall Down','violence']
         self.num_class = len(self.class_names)
         self.device = device
 

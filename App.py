@@ -19,7 +19,7 @@ from Track.Tracker import Detection, Tracker
 from ActionsEstLoader import TSSTG
 
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('TkAgg')  # 使用matplotlib模块并且调用这个函数的目的是在我们进行查看异常值处理所用到，是改变图像显示的方式：TkAgg(一个交互式后台)
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
