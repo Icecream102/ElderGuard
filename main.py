@@ -21,11 +21,9 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 
-#source = '../Data/test_video/test7.mp4'
-#source = '../Data/falldata/Home/Videos/video (2).avi'  # hard detect
-source = r'D:\UNI\IT\Code\Python\Human-Falling-Detect-Tracks-master\Data\fall\Office\video (1).avi'
-#source = 2
-save_pic = 'D:/UNI/IT/Code/Python/Human-Falling-Detect-Tracks-master/Data/pic/'
+# source = r'D:\UNI\IT\Code\Python\Human-Falling-Detect-Tracks-master\Data\fall\Office\video (1).avi'
+source = 'rtsp://admin:VNJDBT@192.168.137.252:554/h264/ch1/main/av_stream'
+save_pic = 'D:/UNI/IT/Code/Python/ElderGuard-gpu/Data/pic/'
 
 
 
