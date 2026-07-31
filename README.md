@@ -1,50 +1,98 @@
-<h1> Human Falling Detection and Tracking </h1>
+# ElderGuard GPU
 
-Using Tiny-YOLO oneclass to detect each person in the frame and use 
-[AlphaPose](https://github.com/MVIG-SJTU/AlphaPose) to get skeleton-pose and then use
-[ST-GCN](https://github.com/yysijie/st-gcn) model to predict action from every 30 frames 
-of each person tracks.
+基于 GPU 的实时老人看护行为识别原型。项目结合人员检测、人体姿态估计、多目标跟踪与时空图卷积网络（ST-GCN），从摄像头或视频流中识别跌倒等行为。
 
-Which now support 7 actions: Standing, Walking, Sitting, Lying Down, Stand up, Sit down, Fall Down.
+<p align="center">
+  <img src="sample1.gif" width="416" alt="ElderGuard detection demo">
+</p>
 
-<div align="center">
-    <img src="sample1.gif" width="416">
-</div>
+> 这是研究/原型项目，不应作为紧急医疗响应系统的唯一依据。
 
-## Prerequisites
+## 功能
 
-- Python > 3.6
-- Pytorch > 1.3.1
+- 单类别 Tiny-YOLO 人体检测
+- AlphaPose（FastPose）人体关键点估计
+- 卡尔曼滤波与 IoU 多目标跟踪
+- ST-GCN 行为识别：站立、行走、坐下、躺下、起立、跌倒及暴力行为
+- 可选的实时摄像头、视频文件或 RTSP/RTMP 流输入
+- 可选告警与异常帧保存（通过环境变量配置，不含任何凭据）
 
-Original test run on: i7-8750H CPU @ 2.20GHz x12, GeForce RTX 2070 8GB, CUDA 10.2
+## 环境要求
 
-## Data
+- Python 3.8+
+- PyTorch（GPU 推理建议安装与本机 CUDA 匹配的版本）
+- NVIDIA GPU（可改用 `--device cpu`，速度会较慢）
 
-This project has trained a new Tiny-YOLO oneclass model to detect only person objects and to reducing 
-model size. Train with rotation augmented [COCO](http://cocodataset.org/#home) person keypoints dataset 
-for more robust person detection in a variant of angle pose.
+## 快速开始
 
-For actions recognition used data from [Le2i](http://le2i.cnrs.fr/Fall-detection-Dataset?lang=fr)
-Fall detection Dataset (Coffee room, Home) extract skeleton-pose by AlphaPose and labeled each action 
-frames by hand for training ST-GCN model.
-
-## Pre-Trained Models
-
-- Tiny-YOLO oneclass - [.pth](https://drive.google.com/file/d/1obEbWBSm9bXeg10FriJ7R2cGLRsg-AfP/view?usp=sharing),
-[.cfg](https://drive.google.com/file/d/19sPzBZjAjuJQ3emRteHybm2SG25w9Wn5/view?usp=sharing)
-- SPPE FastPose (AlphaPose) - [resnet101](https://drive.google.com/file/d/1N2MgE1Esq6CKYA6FyZVKpPwHRyOCrzA0/view?usp=sharing),
-[resnet50](https://drive.google.com/file/d/1IPfCDRwCmQDnQy94nT1V-_NVtTEi4VmU/view?usp=sharing)
-- ST-GCN action recognition - [tsstg](https://drive.google.com/file/d/1mQQ4JHe58ylKbBqTjuKzpwN2nwKOWJ9u/view?usp=sharing)
-
-## Basic Use
-
-1. Download all pre-trained models into ./Models folder.
-2. Run main.py
-```
-    python main.py ${video file or camera source}
+```bash
+git clone https://github.com/<your-account>/ElderGuard-gpu.git
+cd ElderGuard-gpu
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+pip install -r requirements.txt
 ```
 
-## Reference
+将预训练权重放入以下路径（权重不随仓库提交）：
 
-- AlphaPose : https://github.com/Amanbhandula/AlphaPose
-- ST-GCN : https://github.com/yysijie/st-gcn
+```text
+Models/
+├── yolo-tiny-onecls/best-model.pth
+├── sppe/fast_res50_256x192.pth
+└── TSSTG/tsstg-model.pth
+```
+
+模型下载来源：
+
+- [Tiny-YOLO one-class 权重与配置](https://drive.google.com/file/d/1obEbWBSm9bXeg10FriJ7R2cGLRsg-AfP/view?usp=sharing)
+- [AlphaPose FastPose ResNet-50 权重](https://drive.google.com/file/d/1IPfCDRwCmQDnQy94nT1V-_NVtTEi4VmU/view?usp=sharing)
+- [TSSTG 行为识别权重](https://drive.google.com/file/d/1mQQ4JHe58ylKbBqTjuKzpwN2nwKOWJ9u/view?usp=sharing)
+
+运行摄像头（默认设备 0）：
+
+```bash
+python main.py --camera 0 --device cuda
+```
+
+运行本地视频或网络流：
+
+```bash
+python main.py --camera path/to/video.mp4 --device cuda
+python main.py --camera "rtsp://user:password@camera-host/stream" --device cuda
+```
+
+桌面界面入口为 `App.py`。部署端的告警流程入口为 `main_server.py`。
+
+## 告警服务配置
+
+复制示例文件并填写自己的环境变量；请勿将 `.env` 提交到 GitHub。
+
+```bash
+cp .env.example .env
+```
+
+告警功能需要 MySQL；短信功能需要 Twilio，邮件功能需要 SMTP。未配置相应变量时，该通道会被跳过。
+
+## 项目结构
+
+```text
+├── main.py                    # 命令行实时检测入口
+├── App.py                     # Tkinter 桌面界面
+├── main_server.py             # 告警服务入口
+├── Detection/                 # YOLO 检测器
+├── SPPE/                      # 姿态估计实现
+├── Track/                     # 多目标跟踪
+├── Actionsrecognition/        # ST-GCN 训练与评估代码
+├── alert/                     # 告警和异常帧保存
+└── Models/                    # 本地模型目录（权重已忽略）
+```
+
+## 数据与模型
+
+训练数据、视频、实验日志和大体积模型均被 Git 忽略，以避免仓库膨胀或意外公开数据。请根据原始数据集的许可自行下载和使用： [Le2i Fall Detection Dataset](http://le2i.cnrs.fr/Fall-detection-Dataset?lang=fr)。如需共享大文件，请使用 Git LFS 或 GitHub Releases。
+
+## 致谢
+
+- [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose)
+- [ST-GCN](https://github.com/yysijie/st-gcn)
+- [COCO](https://cocodataset.org/)

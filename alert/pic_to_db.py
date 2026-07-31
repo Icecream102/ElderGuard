@@ -7,10 +7,10 @@ import os
 
 
 def to_db(pic_name, stream_path, abnormal_type, date, time):
-    db = pymysql.connect(host='localhost',
-                         user='root',
-                         password='root',
-                         database='elderguard')
+    db = pymysql.connect(host=os.getenv('ELDERGUARD_DB_HOST', 'localhost'),
+                         user=os.getenv('ELDERGUARD_DB_USER', 'elderguard'),
+                         password=os.getenv('ELDERGUARD_DB_PASSWORD', ''),
+                         database=os.getenv('ELDERGUARD_DB_NAME', 'elderguard'))
     cursor = db.cursor()
     # 查询摄像头的流媒体路径获取对应的用户名、环境名、摄像头名称
     sql_select = "select user_name,env_name,camera_name from user_info where stream_path='{}'".format(stream_path)
@@ -26,7 +26,8 @@ def to_db(pic_name, stream_path, abnormal_type, date, time):
     # print(camera_name)
 
     # 异常画面保存的路径
-    frame_path = r'D:\UNI\IT\Code\Python\ElderGuard-gpu\abnormal_pic' + user_name + '/' + env_name + '/' + camera_name
+    frame_path = os.path.join(os.getenv('ELDERGUARD_ALERT_OUTPUT', 'abnormal_pic'),
+                              user_name, env_name, camera_name)
     web_path = '/abn_frame/' + user_name + '/' + env_name + '/' + camera_name + '/' + pic_name + '-' + abnormal_type + '.png'  # 网络访问的路径
     # print(frame_path)
     # print(web_path)
@@ -52,7 +53,6 @@ t2 = t1.split(' ')[0]  # 日期2023-05-02
 class Saver(object):
     def __init__(self, stream_path, behavior, frame, bbox, pre_time):
         # self.s = source_url
-        # self.s = 'rtsp://admin:VNJDBT@192.168.137.47:554/h264/ch1/main/av_stream'  # 测试用
         self.stream_path = stream_path
         self.behavior = behavior
         # self.path = 'D:/learn/ciscn/data/detected_pic/'

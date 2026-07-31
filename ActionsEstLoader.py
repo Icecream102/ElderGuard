@@ -13,8 +13,16 @@ class TSSTG(object):
         device: (str) Device to load the model on 'cpu' or 'cuda'.
     """
     def __init__(self,
-                 weight_file=r'D:\UNI\IT\Code\Python\ElderGuard-gpu\Actionsrecognition\saved\tsstg-model49.pth',  # 由 Actioinsrecognition 的train.py得到
+                 weight_file=None,
                  device='cuda'):
+        if weight_file is None:
+            weight_file = os.getenv('ELDERGUARD_ACTION_MODEL',
+                                    os.path.join('Models', 'TSSTG', 'tsstg-model.pth'))
+        if not os.path.isfile(weight_file):
+            raise FileNotFoundError(
+                'TSSTG model weights were not found at {!r}. Download the model and set '
+                'ELDERGUARD_ACTION_MODEL if you use a different location.'.format(weight_file)
+            )
         self.graph_args = {'strategy': 'spatial'}
         # self.class_names = ['Standing', 'Walking', 'Sitting', 'Lying Down',
         #                     'Stand up', 'Sit down', 'Fall Down']
@@ -24,7 +32,7 @@ class TSSTG(object):
         self.device = device
 
         self.model = TwoStreamSpatialTemporalGraph(self.graph_args, self.num_class).to(self.device)  # create TSSTG model
-        self.model.load_state_dict(torch.load(weight_file))
+        self.model.load_state_dict(torch.load(weight_file, map_location=self.device))
         self.model.eval()
 
     def predict(self, pts, image_size):

@@ -1,3 +1,4 @@
+import os
 import cv2
 import queue
 import threading
@@ -7,7 +8,8 @@ q = queue.Queue()
 
 def Receive():
     print("start Reveive")
-    cap = cv2.VideoCapture("rtsp://admin:VNJDBT@192.168.137.116:554/h264/ch1/main/av_stream")
+    source = os.getenv('ELDERGUARD_SOURCE', '0')
+    cap = cv2.VideoCapture(int(source) if source.isdigit() else source)
     # 按帧读取视频
     # ret是布尔型，正确读取则返回True，读取失败或读取视频结尾则会返回False
     # frame为每一帧的图像

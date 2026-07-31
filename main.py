@@ -21,9 +21,8 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 
-# source = r'D:\UNI\IT\Code\Python\Human-Falling-Detect-Tracks-master\Data\fall\Office\video (1).avi'
-source = 'rtsp://admin:VNJDBT@192.168.137.252:554/h264/ch1/main/av_stream'
-save_pic = 'D:/UNI/IT/Code/Python/ElderGuard-gpu/Data/pic/'
+source = os.getenv('ELDERGUARD_SOURCE', '0')
+save_pic = os.getenv('ELDERGUARD_CAPTURE_DIR', os.path.join('output', 'captures'))
 
 
 
@@ -45,7 +44,8 @@ def kpt2bbox(kpt, ex=20):
 
 def catchpic(frame):
     t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()).replace(' ', '-').replace(':', '-')
-    p = save_pic + t + '.png'
+    os.makedirs(save_pic, exist_ok=True)
+    p = os.path.join(save_pic, t + '.png')
     cv2.imwrite(p, frame)
     return
 

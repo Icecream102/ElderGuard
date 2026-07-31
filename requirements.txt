@@ -1,0 +1,11 @@
+numpy
+opencv-python
+Pillow
+PyMySQL
+scikit-learn
+scipy
+screeninfo
+torch
+torchvision
+tqdm
+twilio

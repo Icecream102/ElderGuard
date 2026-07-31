@@ -29,14 +29,13 @@ os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 # source = '../Data/falldata/Home/Videos/video (2).avi'  # hard detect
 # source = './data/Videos/cam7.avi'
 # source = './data/Videos/video (7).avi'
-# source = 'rtsp://admin:VNJDBT@192.168.137.47:554/h264/ch1/main/av_stream'
 # source = '0'
 # source = 'D:/learn/ciscn/data/FallDataset/Home_01/Videos/video (27).avi'
 # source = r'D:\learn\ciscn\data\violence_self_build\videos\v7.mp4'
 
 # source = 'rtmp://192.168.137.1:1935/live/test'
-stream_path = 'yu_home1'  # 1
-source = 'rtmp://192.168.137.1:1935/live/{}'.format(stream_path)  # 2
+stream_path = os.getenv('ELDERGUARD_STREAM_PATH', 'default')
+source = os.getenv('ELDERGUARD_SOURCE', '0')
 # source = r'D:\UNI\IT\Code\Python\ElderGuard-gpu\Data\videos\video7.avi'
 still_time = 5  # 设置静止时间阈值
 
@@ -59,7 +58,6 @@ def kpt2bbox(kpt, ex=20):
 
 
 def process_alarm(behavior, when):
-    # test_source = 'rtsp://admin:VNJDBT@192.168.137.47:554/h264/ch1/main/av_stream'
     # alarm = alertor.Alarm(source, behavior)
     alarm = alertor.Alarm(stream_path, behavior, when)
     alarm.phone_alert()
@@ -67,14 +65,13 @@ def process_alarm(behavior, when):
 
 
 def save_frame(behavior, img, b, ti):
-    # test_source = 'rtsp://admin:VNJDBT@192.168.137.47:554/h264/ch1/main/av_stream'
     # pic_saver = pic_to_db.Saver(source, behavior, img, b, ti)
     pic_saver = pic_to_db.Saver(stream_path, behavior, img, b, ti)  # 3
     pic_saver.save()
 
 
 if __name__ == '__main__':
-    device = 'cuda'  # cuda or cpu
+    device = os.getenv('ELDERGUARD_DEVICE', 'cuda')  # cuda or cpu
 
     # DETECTION MODEL.
     inp_dets = 384  # Size of input in detection model in square must be divisible by 32 (int).
