@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments and local settings
+.venv/
+venv/
+.env
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+
+# Large or generated local assets
+# Data files may contain licensed datasets and identifiable footage.
+Data/
+Actionsrecognition/saved/
+Models/*
+!Models/yolo-tiny-onecls/
+!Models/yolo-tiny-onecls/yolov3-tiny-onecls.cfg
+Models/yolo-tiny-onecls/*.pth
+Models/yolo-tiny-onecls/*.txt
+*.tfevents.*
+
+# Local deployment output
+abnormal_pic/
+output/
