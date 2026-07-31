@@ -28,3 +28,5 @@ Models/yolo-tiny-onecls/*.txt
 # Local deployment output
 abnormal_pic/
 output/
+
+https:/
