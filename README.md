@@ -4,6 +4,19 @@ ElderGuard is a real-time elder-care activity recognition prototype. It combines
 
 > **Important:** This is a research and prototype project. It must not be used as the sole basis for emergency medical response.
 
+## Alert notifications
+
+| Monitoring software | SMS | Email |
+| --- | --- | --- |
+| ![Monitoring software alert](results/告警-监控软件.jpg) | ![SMS alert](results/告警-短信.jpg) | ![Email alert](results/告警-邮件.jpg) |
+
+## Detected abnormal events
+
+| Physical assault | Fall | No movement |
+| --- | --- | --- |
+| ![Detected physical assault](results/异常画面-殴打.jpg) | ![Detected fall](results/异常画面-跌倒.jpg) | ![Detected no movement](results/异常画面-静止不动.jpg) |
+
+
 ## Features
 
 - Single-class Tiny-YOLO person detection
@@ -62,20 +75,6 @@ The desktop application entry point is `App.py`. The alert-service entry point i
 ## Alert-service configuration
 
 The alert service requires MySQL. SMS alerts require Twilio and email alerts require SMTP. A channel is skipped when its required configuration is absent.
-
-## Results
-
-### Alert notifications
-
-| Monitoring software | SMS | Email |
-| --- | --- | --- |
-| ![Monitoring software alert](results/告警-监控软件.jpg) | ![SMS alert](results/告警-短信.jpg) | ![Email alert](results/告警-邮件.jpg) |
-
-### Detected abnormal events
-
-| Physical assault | Fall | No movement |
-| --- | --- | --- |
-| ![Detected physical assault](results/异常画面-殴打.jpg) | ![Detected fall](results/异常画面-跌倒.jpg) | ![Detected no movement](results/异常画面-静止不动.jpg) |
 
 ## Project structure
 
