@@ -1,26 +1,25 @@
 # ElderGuard
 
-实时老人看护行为识别项目结合人员检测、人体姿态估计、多目标跟踪与时空图卷积网络（ST-GCN），从摄像头视频流中识别跌倒等行为。
+ElderGuard is a real-time elder-care activity recognition prototype. It combines person detection, human pose estimation, multi-object tracking, and spatiotemporal graph convolutional networks (ST-GCN) to identify falls and other potentially dangerous behaviours in camera streams.
 
+> **Important:** This is a research and prototype project. It must not be used as the sole basis for emergency medical response.
 
->这是研究/原型项目，不应作为紧急医疗响应系统的唯一依据。
+## Features
 
-## 功能
+- Single-class Tiny-YOLO person detection
+- AlphaPose (FastPose) human keypoint estimation
+- Kalman-filter and IoU-based multi-object tracking
+- ST-GCN action recognition for standing, walking, sitting, lying down, standing up, falling, and physical assault
+- Input from a live camera, local video file, RTSP stream, or RTMP stream
+- Optional alerts and abnormal-frame capture
 
-- 单类别 Tiny-YOLO 人体检测
-- AlphaPose（FastPose）人体关键点估计
-- 卡尔曼滤波与 IoU 多目标跟踪
-- ST-GCN 行为识别：站立、行走、坐下、躺下、起立、跌倒及暴力殴打行为
-- 可选的实时摄像头、视频文件或 RTSP/RTMP 流输入
-- 可选告警与异常帧保存
+## Requirements
 
-## 环境要求
+- Python 3.8 or later
+- PyTorch; use a version compatible with your local CUDA installation for GPU inference
+- NVIDIA GPU recommended; CPU inference is available through `--device cpu` but is slower
 
-- Python 3.8+
-- PyTorch（GPU 推理建议安装与本机 CUDA 匹配的版本）
-- NVIDIA GPU（可改用 `--device cpu`，速度会较慢）
-
-## 快速开始
+## Quick start
 
 ```bash
 git clone https://github.com/<your-account>/ElderGuard-gpu.git
@@ -30,7 +29,7 @@ source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 ```
 
-将预训练权重放入以下路径：
+Download the pretrained weights and place them in the following locations:
 
 ```text
 Models/
@@ -39,47 +38,60 @@ Models/
 └── TSSTG/tsstg-model.pth
 ```
 
-模型下载来源：
+Model downloads:
 
-- [Tiny-YOLO one-class 权重与配置](https://drive.google.com/file/d/1obEbWBSm9bXeg10FriJ7R2cGLRsg-AfP/view?usp=sharing)
-- [AlphaPose FastPose ResNet-50 权重](https://drive.google.com/file/d/1IPfCDRwCmQDnQy94nT1V-_NVtTEi4VmU/view?usp=sharing)
-- [TSSTG 行为识别权重](https://drive.google.com/file/d/1mQQ4JHe58ylKbBqTjuKzpwN2nwKOWJ9u/view?usp=sharing)
+- [Tiny-YOLO one-class weights and configuration](https://drive.google.com/file/d/1obEbWBSm9bXeg10FriJ7R2cGLRsg-AfP/view?usp=sharing)
+- [AlphaPose FastPose ResNet-50 weights](https://drive.google.com/file/d/1IPfCDRwCmQDnQy94nT1V-_NVtTEi4VmU/view?usp=sharing)
+- [TSSTG action-recognition weights](https://drive.google.com/file/d/1mQQ4JHe58ylKbBqTjuKzpwN2nwKOWJ9u/view?usp=sharing)
 
-运行摄像头（默认设备 0）：
+Run with the default camera (device `0`):
 
 ```bash
 python main.py --camera 0 --device cuda
 ```
 
-运行本地视频或网络流：
+Run with a local video file or network stream:
 
 ```bash
 python main.py --camera path/to/video.mp4 --device cuda
 python main.py --camera "rtsp://user:password@camera-host/stream" --device cuda
 ```
 
-桌面界面入口为 `App.py`。部署端的告警流程入口为 `main_server.py`。
+The desktop application entry point is `App.py`. The alert-service entry point is `main_server.py`.
 
-## 告警服务配置
+## Alert-service configuration
 
-告警功能需要 MySQL；短信功能需要 Twilio，邮件功能需要 SMTP。未配置相应变量时，该通道会被跳过。
+The alert service requires MySQL. SMS alerts require Twilio and email alerts require SMTP. A channel is skipped when its required configuration is absent.
 
-## 项目结构
+## Results
+
+### Alert notifications
+
+| Monitoring software | SMS | Email |
+| --- | --- | --- |
+| ![Monitoring software alert](results/告警-监控软件.jpg) | ![SMS alert](results/告警-短信.jpg) | ![Email alert](results/告警-邮件.jpg) |
+
+### Detected abnormal events
+
+| Physical assault | Fall | No movement |
+| --- | --- | --- |
+| ![Detected physical assault](results/异常画面-殴打.jpg) | ![Detected fall](results/异常画面-跌倒.jpg) | ![Detected no movement](results/异常画面-静止不动.jpg) |
+
+## Project structure
 
 ```text
-├── main.py                    # 命令行实时检测入口
-├── App.py                     # Tkinter 桌面界面
-├── main_server.py             # 告警服务入口
-├── Detection/                 # YOLO 检测器
-├── SPPE/                      # 姿态估计实现
-├── Track/                     # 多目标跟踪
-├── Actionsrecognition/        # ST-GCN 训练与评估代码
-├── alert/                     # 告警和异常帧保存
-└── Models/                    # 本地模型目录
+├── main.py                    # Command-line real-time detection entry point
+├── App.py                     # Tkinter desktop application
+├── main_server.py             # Alert-service entry point
+├── Detection/                 # YOLO detector
+├── SPPE/                      # Pose-estimation implementation
+├── Track/                     # Multi-object tracking
+├── Actionsrecognition/        # ST-GCN training and evaluation code
+├── alert/                     # Alerts and abnormal-frame capture
+└── Models/                    # Local pretrained-model directory
 ```
 
-
-## 致谢
+## Acknowledgements
 
 - [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose)
 - [ST-GCN](https://github.com/yysijie/st-gcn)
