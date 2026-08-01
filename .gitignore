@@ -30,3 +30,6 @@ abnormal_pic/
 output/
 
 https:/
+# Local datasets, videos, and trained weights
+Data/
+Models/
