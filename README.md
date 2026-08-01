@@ -1,21 +1,18 @@
-# ElderGuard GPU
+# ElderGuard
 
-基于 GPU 的实时老人看护行为识别原型。项目结合人员检测、人体姿态估计、多目标跟踪与时空图卷积网络（ST-GCN），从摄像头或视频流中识别跌倒等行为。
+实时老人看护行为识别项目结合人员检测、人体姿态估计、多目标跟踪与时空图卷积网络（ST-GCN），从摄像头视频流中识别跌倒等行为。
 
-<p align="center">
-  <img src="sample1.gif" width="416" alt="ElderGuard detection demo">
-</p>
 
-> 这是研究/原型项目，不应作为紧急医疗响应系统的唯一依据。
+>这是研究/原型项目，不应作为紧急医疗响应系统的唯一依据。
 
 ## 功能
 
 - 单类别 Tiny-YOLO 人体检测
 - AlphaPose（FastPose）人体关键点估计
 - 卡尔曼滤波与 IoU 多目标跟踪
-- ST-GCN 行为识别：站立、行走、坐下、躺下、起立、跌倒及暴力行为
+- ST-GCN 行为识别：站立、行走、坐下、躺下、起立、跌倒及暴力殴打行为
 - 可选的实时摄像头、视频文件或 RTSP/RTMP 流输入
-- 可选告警与异常帧保存（通过环境变量配置，不含任何凭据）
+- 可选告警与异常帧保存
 
 ## 环境要求
 
@@ -33,7 +30,7 @@ source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt
 ```
 
-将预训练权重放入以下路径（权重不随仓库提交）：
+将预训练权重放入以下路径：
 
 ```text
 Models/
@@ -65,12 +62,6 @@ python main.py --camera "rtsp://user:password@camera-host/stream" --device cuda
 
 ## 告警服务配置
 
-复制示例文件并填写自己的环境变量；请勿将 `.env` 提交到 GitHub。
-
-```bash
-cp .env.example .env
-```
-
 告警功能需要 MySQL；短信功能需要 Twilio，邮件功能需要 SMTP。未配置相应变量时，该通道会被跳过。
 
 ## 项目结构
@@ -84,12 +75,9 @@ cp .env.example .env
 ├── Track/                     # 多目标跟踪
 ├── Actionsrecognition/        # ST-GCN 训练与评估代码
 ├── alert/                     # 告警和异常帧保存
-└── Models/                    # 本地模型目录（权重已忽略）
+└── Models/                    # 本地模型目录
 ```
 
-## 数据与模型
-
-训练数据、视频、实验日志和大体积模型均被 Git 忽略，以避免仓库膨胀或意外公开数据。请根据原始数据集的许可自行下载和使用： [Le2i Fall Detection Dataset](http://le2i.cnrs.fr/Fall-detection-Dataset?lang=fr)。如需共享大文件，请使用 Git LFS 或 GitHub Releases。
 
 ## 致谢
 
