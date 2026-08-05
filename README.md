@@ -43,6 +43,20 @@ ElderGuard is a real-time elder-care activity recognition prototype. It combines
 </table>
 
 
+## Project structure
+
+```text
+├── main.py                    # Command-line real-time detection entry point
+├── App.py                     # Tkinter desktop application
+├── main_server.py             # Alert-service entry point
+├── Detection/                 # YOLO detector
+├── SPPE/                      # Pose-estimation implementation
+├── Track/                     # Multi-object tracking
+├── Actionsrecognition/        # ST-GCN training and evaluation code
+├── alert/                     # Alerts and abnormal-frame capture
+└── Models/                    # Local pretrained-model directory
+```
+
 ## Features
 
 - Single-class Tiny-YOLO person detection
@@ -102,19 +116,11 @@ The desktop application entry point is `App.py`. The alert-service entry point i
 
 The alert service requires MySQL. SMS alerts require Twilio and email alerts require SMTP.
 
-## Project structure
+## Future work
 
-```text
-├── main.py                    # Command-line real-time detection entry point
-├── App.py                     # Tkinter desktop application
-├── main_server.py             # Alert-service entry point
-├── Detection/                 # YOLO detector
-├── SPPE/                      # Pose-estimation implementation
-├── Track/                     # Multi-object tracking
-├── Actionsrecognition/        # ST-GCN training and evaluation code
-├── alert/                     # Alerts and abnormal-frame capture
-└── Models/                    # Local pretrained-model directory
-```
+- Deploy the algorithm as a production-ready application
+
+
 
 ## Acknowledgements
 
