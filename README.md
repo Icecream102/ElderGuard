@@ -75,7 +75,7 @@ ElderGuard is a real-time elder-care activity recognition prototype. It combines
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-account>/ElderGuard.git
+git clone https://github.com/Icecream102/ElderGuard.git
 cd ElderGuard
 pip install -r requirements.txt
 ```
