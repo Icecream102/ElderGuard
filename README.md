@@ -64,7 +64,7 @@ ElderGuard is a real-time elder-care activity recognition prototype. It combines
 git clone https://github.com/<your-account>/ElderGuard-gpu.git
 cd ElderGuard-gpu
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -79,9 +79,9 @@ Models/
 
 Model downloads:
 
-- [Tiny-YOLO one-class weights and configuration](https://drive.google.com/file/d/1obEbWBSm9bXeg10FriJ7R2cGLRsg-AfP/view?usp=sharing)
-- [AlphaPose FastPose ResNet-50 weights](https://drive.google.com/file/d/1IPfCDRwCmQDnQy94nT1V-_NVtTEi4VmU/view?usp=sharing)
-- [TSSTG action-recognition weights](https://drive.google.com/file/d/1mQQ4JHe58ylKbBqTjuKzpwN2nwKOWJ9u/view?usp=sharing)
+- [Tiny-YOLO one-class weights and configuration](https://huggingface.co/Luanneee/yolo-tiny-onecls/tree/main)
+- [AlphaPose FastPose ResNet-50 weights](https://huggingface.co/Luanneee/sppe/tree/main)
+- [TSSTG action-recognition weights](https://huggingface.co/Luanneee/TSSTG/tree/main)
 
 Run with the default camera (device `0`):
 
@@ -100,7 +100,7 @@ The desktop application entry point is `App.py`. The alert-service entry point i
 
 ## Alert-service configuration
 
-The alert service requires MySQL. SMS alerts require Twilio and email alerts require SMTP. A channel is skipped when its required configuration is absent.
+The alert service requires MySQL. SMS alerts require Twilio and email alerts require SMTP.
 
 ## Project structure
 
