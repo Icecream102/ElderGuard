@@ -8,13 +8,13 @@ ElderGuard is a real-time elder-care activity recognition prototype. It combines
 
 | Monitoring software | SMS | Email |
 | --- | --- | --- |
-| ![Monitoring software alert](results/告警-监控软件.jpg) | ![SMS alert](results/告警-短信.jpg) | ![Email alert](results/告警-邮件.jpg) |
+| <img src="results/告警-监控软件.jpg" alt="Monitoring software alert"> | <img src="results/告警-短信.jpg" alt="SMS alert"> | <img src="results/告警-邮件.jpg" alt="Email alert"> |
 
 ## Detected abnormal events
 
 | Physical assault | Fall | No movement |
 | --- | --- | --- |
-| ![Detected physical assault](results/异常画面-殴打.jpg) | ![Detected fall](results/异常画面-跌倒.jpg) | ![Detected no movement](results/异常画面-静止不动.jpg) |
+| <img src="results/异常画面-殴打.jpg" alt="Detected physical assault"> | <img src="results/异常画面-跌倒.jpg" alt="Detected fall" > | <img src="results/异常画面-静止不动.jpg" alt="Detected no movement" > |
 
 
 ## Features
