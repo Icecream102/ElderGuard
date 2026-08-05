@@ -6,15 +6,41 @@ ElderGuard is a real-time elder-care activity recognition prototype. It combines
 
 ## Alert notifications
 
-| Monitoring software | SMS | Email |
-| --- | --- | --- |
-| <img src="results/告警-监控软件.jpg" alt="Monitoring software alert"> | <img src="results/告警-短信.jpg" alt="SMS alert"> | <img src="results/告警-邮件.jpg" alt="Email alert"> |
+<table>
+  <thead>
+    <tr>
+      <th>Monitoring software</th>
+      <th>SMS</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td width="33.33%"><img src="results/告警-监控软件.jpg" alt="Monitoring software alert" width="100%"></td>
+      <td width="33.33%"><img src="results/告警-短信.jpg" alt="SMS alert" width="100%"></td>
+      <td width="33.33%"><img src="results/告警-邮件.jpg" alt="Email alert" width="100%"></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Detected abnormal events
 
-| Physical assault | Fall | No movement |
-| --- | --- | --- |
-| <img src="results/异常画面-殴打.jpg" alt="Detected physical assault"> | <img src="results/异常画面-跌倒.jpg" alt="Detected fall" > | <img src="results/异常画面-静止不动.jpg" alt="Detected no movement" > |
+<table>
+  <thead>
+    <tr>
+      <th>Physical assault</th>
+      <th>Fall</th>
+      <th>No movement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td width="33.33%"><img src="results/异常画面-殴打.jpg" alt="Detected physical assault" width="100%"></td>
+      <td width="33.33%"><img src="results/异常画面-跌倒.jpg" alt="Detected fall" width="100%"></td>
+      <td width="33.33%"><img src="results/异常画面-静止不动.jpg" alt="Detected no movement" width="100%"></td>
+    </tr>
+  </tbody>
+</table>
 
 
 ## Features
