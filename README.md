@@ -118,7 +118,7 @@ The alert service requires MySQL. SMS alerts require Twilio and email alerts req
 
 ## Future work
 
-- Deploy the algorithm as a production-ready application
+- - Prepare and deploy ElderGuard as an online application, with monitoring and operational safeguards.
 
 
 
