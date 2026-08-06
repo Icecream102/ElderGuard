@@ -1,6 +1,11 @@
 # ElderGuard
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-Enabled-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![CUDA](https://img.shields.io/badge/CUDA-Supported-76B900?style=flat-square&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
+[![Status: Prototype](https://img.shields.io/badge/Status-Prototype-orange?style=flat-square)](#elderguard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+
 
 ElderGuard is a real-time elder-care activity recognition prototype. It combines person detection, human pose estimation, multi-object tracking, and spatiotemporal graph convolutional networks (ST-GCN) to identify falls and other potentially dangerous behaviours in camera streams.
 
