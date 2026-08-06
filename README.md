@@ -1,5 +1,7 @@
 # ElderGuard
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ElderGuard is a real-time elder-care activity recognition prototype. It combines person detection, human pose estimation, multi-object tracking, and spatiotemporal graph convolutional networks (ST-GCN) to identify falls and other potentially dangerous behaviours in camera streams.
 
 > **Important:** This is a research and prototype project. It must not be used as the sole basis for emergency medical response.
